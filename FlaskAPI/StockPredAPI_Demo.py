@@ -21,7 +21,9 @@ def index():
 		selData=loadData[loadData['symbol']==reqSym].iloc[:,:-1]     #filter data with user requested stock symbol
 		result = model_loaded.predict(selData)                       #make a predict 
 		pred=str(result[0])
-		postBk='Prediction for '+reqSym+': '+pred                    
+		prob=model_loaded.predict_proba(selData)
+		probl=str(prob.max())
+		postBk='Prediction for '+reqSym+': '+pred+'. Probability: '+ probl                    
 	else:
 		postBk ='Sorry. The symbol you requested is not in our demo yet.'     #deal with error message
 	return postBk                                                           #post prediction data back to users
