@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stock Price Prediction API Deployment Demo</title>
+<style>
+div.submitDiv{
+  width: 800px;
+  border: none;
+  padding: 25px;
+  margin: 25px;
+  text-align: center
+}
+
+div.art{
+  width: 1000px;
+  border: none;
+  margin: 25px;
+  text-align: left
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+article {
+  padding: 20px;
+  font-size: 13px;
+}
+
+footer {
+  padding: 20px;
+  color: black;
+  font-size: 13px;
+}
+</style>
+
+<script type="text/javascript">
+function symsub() {
+	var symbolVal= document.getElementById("symbol").value;
+	symbolVal=symbolVal.trim();	
+	
+	if (symbolVal.length==0){	
+		document.getElementById("pred").innerHTML="Please enter valid stock symbol, for example: IVV.";
+	}
+	else if (symbolVal.length >5)
+	{
+		document.getElementById("symbol").innerHTML="";
+		document.getElementById("pred").innerHTML="Please enter valid stock symbol, for example: IVV.";
+	}
+else {
+		document.getElementById("pred").innerHTML="";
+		var reqst = new XMLHttpRequest();
+		ursend='your_ulr/demo?symbol='+symbolVal;
+		
+		reqst.open('GET', ursend, true);
+		
+		reqst.onreadystatechange  = function () {
+			if (this.readyState == 4 && this.status == 200) {
+					predCtt=this.responseText;
+					document.getElementById("pred").innerHTML=predCtt;
+					}
+			else {
+				errmsg="Sorry. The connection to the API may be broken, or the symbol is not listed in the demo.";
+				document.getElementById("pred").innerHTML=errmsg;
+			}
+			}
+		reqst.send();
+	}
+	}
+	
+
+</script>
+
+
+
+</head>
+<body>
+
+
+<div class='submitDiv'>
+
+<h3>Machine Learning Prediction API Deployment Demo For Next Closing Stock Price</h3>
+</br>
+	<input type="text" id="symbol" value="Stock Symbol such as IVV" size="35">
+	<button onclick="symsub()">Submit</button>
+	<p id="pred"></p>
+</div>
+</br>
+<div class="art">
+<section> 
+  <article>
+<h4>How does this work?</h4>
+
+<p>When you input the symbol and press the submit button, the symbol will be passed to an API. 
+The API will use a <a href="https://github.com/HAI-Ways/API/blob/master/FlaskAPI/Stock_Pred_v07190216.ipynb"><b>pretrained machine learning model</b></a> and stock market data to make a prediction.
+The prediction results will be posted back here. </p>
+
+<p>The prediction is categorical. It predicts the next closing price as:</p>
+<ul>
+<li> 1 if it is >=1% higher than the latest closing price,</li>
+<li>-1 if it is <=1% lower than the latest closing price,</li>
+<li>0 for else.</li>
+</ul>
+
+<p> The API is created using <b>Flask</b> as described <a href="https://github.com/HAI-Ways/API/blob/master/FlaskAPI/StockPredAPI_Demo.py">here</a>.</p>
+</article>
+
+</section>
+
+</br>
+</br>
+<footer>
+<p><b>Disclaimer:</b> This is only a demo for machine learning API deployment. The servcie may not be maintained and updated. <font color="red">Do not use</font> this for your decision to buy, sell or hold your stock. You are the only one who is responsible for any losses or gains.</p>
+</footer>
+</div>
+</body>
+</html>
