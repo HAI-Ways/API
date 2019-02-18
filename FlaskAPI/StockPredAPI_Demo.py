@@ -25,7 +25,7 @@ def index():
 		probl=str(prob.max())
 		postBk='Prediction for '+reqSym+': '+pred+'. Probability: '+ probl                    
 	else:
-		postBk ='Sorry. The symbol you requested is not in our demo yet.'     #deal with error message
+		postBk ='Sorry. The symbol you requested is not in the demo yet.'     #deal with error message
 	return postBk                                                           #post prediction data back to users
 
 
